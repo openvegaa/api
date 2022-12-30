@@ -22,3 +22,8 @@ Route::group(['prefix' => 'auth'], function() {
     Route::post('login', 'AuthController@login');
     Route::post('register', 'AuthController@register');
 });
+
+Route::group(['prefix' => 'user'], function() {
+    Route::get('me', 'UserController@profile');
+    Route::post('{user}/update', 'UserController@update');
+});
