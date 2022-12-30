@@ -16,10 +16,14 @@ class UserController extends ApiController
     public function update(Request $request): \Illuminate\Http\JsonResponse
     {
         $data = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => ['nullable', 'string', 'max:255'],
+            'bio' => ['nullable', 'string'],
         ]);
 
         $user = auth()->user();
+        if ($user->id != request()->route('user')) {
+            return $this->sendResponse('Unauthorized', false, 401, 1101);
+        }
         $user->update($data);
         return $this->sendResponse('Your profile has been updated.', true);
     }
